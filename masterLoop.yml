@@ -1,0 +1,30 @@
+- name: Loops # play name
+  hosts: webservers #ip group to target
+  gather_facts: no #no to gather facts about the machine
+  vars:
+    runTask: true
+    sayGoodbye: false
+    a: 1
+    b: [2,3]
+    c:
+      - hello: world
+        check: me
+      - hello: 40
+        check: 49
+    d:
+      name: mike
+      pet: cat
+      food: burger
+  tasks:
+    - debug:
+        msg: "hello: {{item}}"
+      loop: "{{ b }}"
+
+    - debug:
+        msg: "hello new: {{item.hello}}"
+      loop: "{{ c }}"
+
+    - debug:
+        msg: "hello friend: {{item}}" #map item can be accessed as item.key (for key) and item.value (for value)
+      loop: "{{ d|dict2items }}" #convert map to list so that it can be looped
+      when: runTask # to add condition to loop

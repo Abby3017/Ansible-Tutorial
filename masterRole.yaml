@@ -1,0 +1,19 @@
+- name: Configure the webservers # play name
+  hosts: webservers #ip group to target
+  become: yes #become root in machine
+  roles: #execute task mentioned in role users
+    - users
+  tasks: #task to run on that machine
+    - name: Install nginx #task name
+      package: #module name
+        name: Nginx
+        state: present
+
+- name: Configure database # play name
+  hosts: database
+  become: yes
+  tasks:
+    - name: Install Mysql Server
+      package:
+        name: mysql-server
+        state: present

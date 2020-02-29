@@ -1,0 +1,39 @@
+- name: Variables # play name
+  hosts: webservers #ip group to target
+  gather_facts: no #no to gather facts about the machine
+  vars:
+    runTask: true
+    sayGoodbye: false
+    a: 1
+  tasks:
+    - debug:
+        msg: "hello: {{ourmap.a | type_debug}}"
+      when: runTask
+      tags:
+        - check_1
+        - check_2
+
+    - debug:
+        msg: "goodbye, friend"
+      when: sayGoodbye == false #to put compare operator to check if variable have same value or not
+      tags:
+        - check_3
+        - check_2
+    
+    - debug:
+        msg: "not true friend"
+      when: runTask != false #can be written as not runTask too
+    
+    - debug:
+        msg: "Check and"
+      when: runTask and a == 1
+    
+    - debug:
+        msg: "Check and" #list of when conditions act as and operation
+      when:
+        - runTask
+        - a == 1
+
+    - debug:  #using and , or along with parantheseis
+        msg: "check and and or"
+      when: (runTask  and a == 1) or sayGoodbye == false

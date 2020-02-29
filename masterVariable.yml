@@ -1,0 +1,31 @@
+- name: Variables # play name
+  hosts: webservers #ip group to target
+  gather_facts: no #no to gather facts about the machine
+  vars:
+    hello: world
+    ourNumberlist: [1,2,3,4] #list
+    outStrList:
+      - "a"
+      - "b"
+      - "c"
+    ourMap: #map
+      hello: world #ourmap.hello to access it
+      goodbye:
+        person: Mike #ourmap.goodbye.person to access it
+        cat: joey
+    ourListMap:
+      - a: 1
+        b: 2
+      - c: 3 #ourListmap[1].c to access it
+      - d: 4
+    ourMapList:
+      a:
+        - 1
+        - 2
+      b: [3]
+      c:
+        - 4
+  tasks: #task to run on that machine
+    - name: Print debug #task name
+      debug: #module name
+        msg: "hello: {{hello}}"
